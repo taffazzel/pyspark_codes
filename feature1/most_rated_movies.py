@@ -2,7 +2,7 @@ from pyspark.sql import Row
 from pyspark import SparkContext, SparkConf
 from pyspark.sql import SparkSession
 
-def rating()
+def rating():
 	conf = SparkConf().setAppName("MostRatedMovies")
 	sc = SparkContext(conf = conf)
 	lineRdd = sc.textFile("file:///home/hdfs/ml-20m/smallrating.csv")
@@ -13,12 +13,12 @@ def rating()
 	schemaRating = spark.createDataFrame(frame).cache()
 	schemaRating.createOrReplaceTempView("ratings")
 	query = "select * from ratings limit 10"
-	top = spark.sql(query)
-	view_rates = top.rdd.map(lambda p:p.rating).collect()
-	for t in view_rates:
-		print t
+	spark.sql(query).show()
+	#view_rates = top.rdd.map(lambda p:p.rating).collect()
+	#for t in view_rates:
+		#print t
 
-	spark.stop()
+	#spark.stop()
 
 if __name__=="__main__":
 	rating()
