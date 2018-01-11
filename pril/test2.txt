@@ -3,4 +3,5 @@ crazy fox jumped
 fox is fast
 fox is smart
 dog is smart
+All animals are smart
 
