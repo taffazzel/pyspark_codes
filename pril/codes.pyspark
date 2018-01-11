@@ -47,4 +47,26 @@ ParallelCollectionRDD[106] at parallelize at PythonRDD.scala:475
 [('g1', 2), ('g2', 4), ('g3', 3), ('g4', 8)]
 >>> rdd.map(lambda x: x[1]).collect()
 [2, 4, 3, 8]
+>>> lines = sc.textFile("file:///home/hdfs/test2.txt",2)
+>>> lines.flatMap(lambda s:s.split()).map(lambda w:(w,1)).groupByKey()
+PythonRDD[8] at RDD at PythonRDD.scala:48
+>>> lines.flatMap(lambda s:s.split()).map(lambda w:(w,1)).groupByKey().collect()
+[(u'crazy', <pyspark.resultiterable.ResultIterable object at 0x7fbc15d710d0>), (u'fast', <pyspark.resultiterable.ResultIterable object at 0x7fbc15879b50>), (u'fox', <pyspark.resultiterable.ResultIterable object at 0x7fbc14e0b090>), (u'is', <pyspark.resultiterable.ResultIterable object at 0x7fbc14e0b110>), (u'smart', <pyspark.resultiterable.ResultIterable object at 0x7fbc14e0b150>), (u'jumped', <pyspark.resultiterable.ResultIterable object at 0x7fbc14e0b190>), (u'dog', <pyspark.resultiterable.ResultIterable object at 0x7fbc14e0b1d0>)]
+>>> lines.flatMap(lambda s:s.split()).map(lambda w:(w,1)).groupByKey().collect()
+[(u'crazy', <pyspark.resultiterable.ResultIterable object at 0x7fbc15879990>), (u'fast', <pyspark.resultiterable.ResultIterable object at 0x7fbc158799d0>), (u'fox', <pyspark.resultiterable.ResultIterable object at 0x7fbc15d66c10>), (u'is', <pyspark.resultiterable.ResultIterable object at 0x7fbc15d66a90>), (u'smart', <pyspark.resultiterable.ResultIterable object at 0x7fbc15d66b50>), (u'jumped', <pyspark.resultiterable.ResultIterable object at 0x7fbc15d66c50>), (u'dog', <pyspark.resultiterable.ResultIterable object at 0x7fbc15d66d10>)]
+>>> l = lines.flatMap(lambda s:s.split()).map(lambda w:(w,1)).groupByKey()
+>>> for i in l.collect():
+...     print i
+...
+(u'crazy', <pyspark.resultiterable.ResultIterable object at 0x7fbc15879b50>)
+(u'fast', <pyspark.resultiterable.ResultIterable object at 0x7fbc15d716d0>)
+(u'fox', <pyspark.resultiterable.ResultIterable object at 0x7fbc15847690>)
+(u'is', <pyspark.resultiterable.ResultIterable object at 0x7fbc15847150>)
+(u'smart', <pyspark.resultiterable.ResultIterable object at 0x7fbc15847110>)
+(u'jumped', <pyspark.resultiterable.ResultIterable object at 0x7fbc15847350>)
+(u'dog', <pyspark.resultiterable.ResultIterable object at 0x7fbc15847790>)
 
+
+>>> lines = sc.textFile("file:///home/hdfs/test2.txt",2)
+
+>>> lines.flatMap(lambda s:s.split()).map(lambda w:(w,1)).groupByKey().map(lambda (w,counts):(w,sum(counts))).collect()
