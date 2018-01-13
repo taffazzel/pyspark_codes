@@ -27,10 +27,13 @@ if __name__=="__main__":
 	appName = "Dataclean"
 	conf = SparkConf().setAppName(appName)
 	sc = SparkContext(conf = conf)
+	spark = SparkSession.builder.appName(appName).getOrCreate()
 	lines = sc.textFile("file:///root/flight_analysis/small")
 	header = lines.first()
 	body = lines.filter(lambda Row: Row!=header)
 	cleanedRdd = clean(body)
-	validatedRdd = validate(cleanedRdd)
-	for i in validatedRdd.collect():
-		print i
+	cleanedandvalidatedRdd = validate(cleanedRdd)
+	flight_df = spark.createDataFrame(cleanedandvalidatedRdd)
+	flight_df.show()
+
+	
