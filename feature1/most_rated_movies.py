@@ -14,6 +14,7 @@ def rating():
 	schemaRating.createOrReplaceTempView("ratings")
 	query = "select * from ratings limit 10"
 	spark.sql(query).show()
+	schemaRating.select(schemaRating['userid']).show()
 	#view_rates = top.rdd.map(lambda p:p.rating).collect()
 	#for t in view_rates:
 		#print t
